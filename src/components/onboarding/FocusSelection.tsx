@@ -18,7 +18,7 @@ export const FocusSelection = () => {
 
   const handleContinue = () => {
     if (selectedFocus) {
-      navigate("/onboarding/voice");
+      navigate("/onboarding/voice-upload");
     }
   };
 
@@ -28,6 +28,8 @@ export const FocusSelection = () => {
         <div className="flex justify-center mb-8">
           <div className="flex items-center space-x-2">
             <div className="h-2 w-2 rounded-full bg-[#9b87f5]" />
+            <div className="h-2 w-2 rounded-full bg-[#8E9196]" />
+            <div className="h-2 w-2 rounded-full bg-[#8E9196]" />
             <div className="h-2 w-2 rounded-full bg-[#8E9196]" />
             <div className="h-2 w-2 rounded-full bg-[#8E9196]" />
           </div>

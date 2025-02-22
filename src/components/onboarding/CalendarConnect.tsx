@@ -1,62 +1,39 @@
 
 import { Button } from "@/components/ui/button";
-import { Calendar } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Check } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 
 const calendarOptions = [
-  {
-    name: "Sign in with Google",
-    provider: "google",
-  },
-  {
-    name: "Sign in with iOS Calendar",
-    provider: "ios",
-  },
-  {
-    name: "Sign in with Outlook",
-    provider: "outlook",
-  },
+  "Google Calendar",
+  "iOS Calendar",
+  "Outlook Calendar",
 ];
 
 export const CalendarConnect = () => {
+  const [selectedCalendar, setSelectedCalendar] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { toast } = useToast();
 
-  const completeOnboarding = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("No user found");
-
-      const { error } = await supabase
-        .from('profiles')
-        .upsert({
-          id: user.id,
-          has_completed_onboarding: true,
-          updated_at: new Date().toISOString(),
-        });
-
-      if (error) throw error;
-      navigate("/");
-    } catch (error: any) {
-      console.error('Error completing onboarding:', error);
-      toast({
-        title: "Error",
-        description: "There was a problem completing your onboarding",
-        variant: "destructive",
-      });
+  const handleContinue = () => {
+    if (selectedCalendar) {
+      navigate("/onboarding/watch");
     }
-  };
-
-  const handleCalendarSelect = async (provider: string) => {
-    // Handle calendar integration here
-    await completeOnboarding();
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center px-4 py-12">
       <div className="w-full max-w-md space-y-6">
+        <div className="flex justify-center mb-8">
+          <div className="flex items-center space-x-2">
+            <div className="h-2 w-2 rounded-full bg-[#8E9196]" />
+            <div className="h-2 w-2 rounded-full bg-[#8E9196]" />
+            <div className="h-2 w-2 rounded-full bg-[#9b87f5]" />
+            <div className="h-2 w-2 rounded-full bg-[#8E9196]" />
+            <div className="h-2 w-2 rounded-full bg-[#8E9196]" />
+          </div>
+        </div>
+
         <div className="text-center space-y-2">
           <h1 className="text-2xl font-semibold text-gray-900">
             Connect your calendar
@@ -64,28 +41,36 @@ export const CalendarConnect = () => {
         </div>
 
         <div className="space-y-3">
-          {calendarOptions.map((option) => (
-            <Button
-              key={option.provider}
-              variant="outline"
-              className="w-full justify-start gap-3 py-6"
-              onClick={() => handleCalendarSelect(option.provider)}
+          {calendarOptions.map((calendar) => (
+            <Card
+              key={calendar}
+              className={`p-4 cursor-pointer transition-all ${
+                selectedCalendar === calendar
+                  ? "bg-blue-50 border-blue-200"
+                  : "bg-gray-50 hover:bg-gray-100"
+              }`}
+              onClick={() => setSelectedCalendar(calendar)}
             >
-              <Calendar className="h-5 w-5" />
-              {option.name}
-            </Button>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-gray-900">
+                  {calendar}
+                </span>
+                {selectedCalendar === calendar && (
+                  <Check className="h-5 w-5 text-blue-600" />
+                )}
+              </div>
+            </Card>
           ))}
         </div>
 
         <Button
-          variant="link"
-          className="w-full text-gray-600"
-          onClick={completeOnboarding}
+          className="w-full bg-black text-white hover:bg-gray-800"
+          onClick={handleContinue}
+          disabled={!selectedCalendar}
         >
-          Skip for now
+          Continue
         </Button>
       </div>
     </div>
   );
 };
-

@@ -5,8 +5,9 @@ import Index from "@/pages/Index";
 import Auth from "@/pages/Auth";
 import NotFound from "@/pages/NotFound";
 import { FocusSelection } from "@/components/onboarding/FocusSelection";
-import { VoiceSample } from "@/components/onboarding/VoiceSample";
+import { VoiceUpload } from "@/components/onboarding/VoiceUpload";
 import { CalendarConnect } from "@/components/onboarding/CalendarConnect";
+import { WatchPair } from "@/components/onboarding/WatchPair";
 import { OnboardingLayout } from "@/components/onboarding/OnboardingLayout";
 
 function App() {
@@ -15,30 +16,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/auth" element={<Auth />} />
-        <Route
-          path="/onboarding"
-          element={
-            <OnboardingLayout>
-              <FocusSelection />
-            </OnboardingLayout>
-          }
-        />
-        <Route
-          path="/onboarding/voice"
-          element={
-            <OnboardingLayout>
-              <VoiceSample />
-            </OnboardingLayout>
-          }
-        />
-        <Route
-          path="/onboarding/calendar"
-          element={
-            <OnboardingLayout>
-              <CalendarConnect />
-            </OnboardingLayout>
-          }
-        />
+        <Route path="/onboarding" element={<OnboardingLayout><FocusSelection /></OnboardingLayout>} />
+        <Route path="/onboarding/voice-upload" element={<OnboardingLayout><VoiceUpload /></OnboardingLayout>} />
+        <Route path="/onboarding/calendar" element={<OnboardingLayout><CalendarConnect /></OnboardingLayout>} />
+        <Route path="/onboarding/watch" element={<OnboardingLayout><WatchPair /></OnboardingLayout>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
