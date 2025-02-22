@@ -9,7 +9,126 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      affirmations: {
+        Row: {
+          context: string | null
+          id: string
+          text: string
+          timestamp: string
+          user_id: string
+        }
+        Insert: {
+          context?: string | null
+          id?: string
+          text: string
+          timestamp?: string
+          user_id: string
+        }
+        Update: {
+          context?: string | null
+          id?: string
+          text?: string
+          timestamp?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affirmations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      calendar_events: {
+        Row: {
+          created_at: string
+          event_name: string
+          event_time: string
+          event_type: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_name: string
+          event_time: string
+          event_type: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_name?: string
+          event_time?: string
+          event_type?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calendar_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stress_levels: {
+        Row: {
+          id: string
+          level: number
+          timestamp: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          level: number
+          timestamp?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          level?: number
+          timestamp?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stress_levels_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          voice_clone_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          voice_clone_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          voice_clone_url?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
