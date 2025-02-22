@@ -7,6 +7,11 @@ import { ArrowLeft } from "lucide-react";
 const WatchPairing = () => {
   const navigate = useNavigate();
 
+  const handleComplete = () => {
+    localStorage.setItem("hasCompletedOnboarding", "true");
+    navigate('/', { replace: true });
+  };
+
   return (
     <div className="min-h-screen bg-white p-6">
       <div className="flex items-center justify-between mb-8">
@@ -48,7 +53,7 @@ const WatchPairing = () => {
 
       <Button
         className="w-full"
-        onClick={() => navigate('/')}
+        onClick={handleComplete}
       >
         Continue
       </Button>
@@ -57,3 +62,4 @@ const WatchPairing = () => {
 };
 
 export default WatchPairing;
+
