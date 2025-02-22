@@ -2,6 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const calendarOptions = [
   {
@@ -20,10 +22,36 @@ const calendarOptions = [
 
 export const CalendarConnect = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleCalendarSelect = (provider: string) => {
+  const completeOnboarding = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("No user found");
+
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          has_completed_onboarding: true,
+          updated_at: new Date().toISOString(),
+        });
+
+      if (error) throw error;
+      navigate("/");
+    } catch (error: any) {
+      console.error('Error completing onboarding:', error);
+      toast({
+        title: "Error",
+        description: "There was a problem completing your onboarding",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleCalendarSelect = async (provider: string) => {
     // Handle calendar integration here
-    navigate("/dashboard");
+    await completeOnboarding();
   };
 
   return (
@@ -52,7 +80,7 @@ export const CalendarConnect = () => {
         <Button
           variant="link"
           className="w-full text-gray-600"
-          onClick={() => navigate("/dashboard")}
+          onClick={completeOnboarding}
         >
           Skip for now
         </Button>
@@ -60,3 +88,4 @@ export const CalendarConnect = () => {
     </div>
   );
 };
+
