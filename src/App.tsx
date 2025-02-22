@@ -8,6 +8,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import FocusSelection from "./pages/onboarding/FocusSelection";
+import VoiceUpload from "./pages/onboarding/VoiceUpload";
+import CalendarConnect from "./pages/onboarding/CalendarConnect";
+import WatchPairing from "./pages/onboarding/WatchPairing";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +26,10 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/onboarding/focus" element={<FocusSelection />} />
+              <Route path="/onboarding/voice" element={<VoiceUpload />} />
+              <Route path="/onboarding/calendar" element={<CalendarConnect />} />
+              <Route path="/onboarding/watch" element={<WatchPairing />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
@@ -32,4 +40,3 @@ const App = () => {
 };
 
 export default App;
-
