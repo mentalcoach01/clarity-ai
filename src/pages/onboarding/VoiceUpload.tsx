@@ -1,18 +1,45 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Play, Upload } from "lucide-react";
+import { ArrowLeft, Play, Pause, Upload } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const VoiceUpload = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setUploadedFile(file);
+      if (file.type.startsWith('audio/')) {
+        setUploadedFile(file);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Invalid file type",
+          description: "Please upload an audio file",
+        });
+      }
     }
+  };
+
+  const togglePlayback = () => {
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleAudioEnd = () => {
+    setIsPlaying(false);
   };
 
   return (
@@ -58,11 +85,17 @@ const VoiceUpload = () => {
       ) : (
         <>
           <div className="flex items-center justify-between p-4 border rounded-md mb-8">
-            <span className="text-sm">Voice.mp3</span>
-            <Button variant="ghost" size="icon">
-              <Play className="h-5 w-5" />
+            <span className="text-sm">{uploadedFile.name}</span>
+            <Button variant="ghost" size="icon" onClick={togglePlayback}>
+              {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
             </Button>
           </div>
+          <audio
+            ref={audioRef}
+            src={URL.createObjectURL(uploadedFile)}
+            onEnded={handleAudioEnd}
+            className="hidden"
+          />
           <Button
             className="w-full"
             onClick={() => navigate('/onboarding/calendar')}
