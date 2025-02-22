@@ -39,8 +39,8 @@ const VoicePreview = () => {
         </Button>
         <div className="flex gap-2">
           <div className="h-2 w-2 rounded-full bg-gray-200"></div>
-          <div className="h-2 w-2 rounded-full bg-black"></div>
           <div className="h-2 w-2 rounded-full bg-gray-200"></div>
+          <div className="h-2 w-2 rounded-full bg-black"></div>
           <div className="h-2 w-2 rounded-full bg-gray-200"></div>
           <div className="h-2 w-2 rounded-full bg-gray-200"></div>
         </div>
@@ -48,33 +48,35 @@ const VoicePreview = () => {
       </div>
 
       <h1 className="text-2xl font-semibold mb-8">
-        Upload a sample of your voice
+        Preview your voice sample
       </h1>
 
-      <div className="flex items-center justify-between p-4 border rounded-md mb-8">
-        <span className="text-sm">{fileName}</span>
-        <Button variant="ghost" size="icon" onClick={togglePlayback}>
-          {isPlaying ? (
-            <Pause className="h-5 w-5" />
-          ) : (
-            <Play className="h-5 w-5" />
-          )}
+      <div className="w-full max-w-md mx-auto">
+        <div className="flex items-center justify-between p-4 border rounded-lg mb-8">
+          <span className="text-sm truncate">{fileName}</span>
+          <Button variant="ghost" size="icon" onClick={togglePlayback}>
+            {isPlaying ? (
+              <Pause className="h-5 w-5" />
+            ) : (
+              <Play className="h-5 w-5" />
+            )}
+          </Button>
+        </div>
+
+        <audio
+          ref={audioRef}
+          src={fileUrl}
+          onEnded={() => setIsPlaying(false)}
+          className="hidden"
+        />
+
+        <Button
+          className="w-full"
+          onClick={() => navigate('/onboarding/calendar')}
+        >
+          Continue
         </Button>
       </div>
-
-      <audio
-        ref={audioRef}
-        src={fileUrl}
-        onEnded={() => setIsPlaying(false)}
-        className="hidden"
-      />
-
-      <Button
-        className="w-full"
-        onClick={() => navigate('/onboarding/calendar')}
-      >
-        Continue
-      </Button>
     </div>
   );
 };

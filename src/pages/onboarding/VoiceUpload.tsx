@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Upload } from "lucide-react";
+import { ArrowLeft, Upload, Play } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -10,6 +10,7 @@ const VoiceUpload = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -35,6 +36,7 @@ const VoiceUpload = () => {
 
       if (uploadError) throw uploadError;
 
+      setUploadedFile(file);
       localStorage.setItem('voiceFile', file.name);
       localStorage.setItem('voiceFileUrl', URL.createObjectURL(file));
       
@@ -42,8 +44,6 @@ const VoiceUpload = () => {
         title: "Success",
         description: "Voice sample uploaded successfully",
       });
-      
-      navigate('/onboarding/voice/preview');
     } catch (error: any) {
       toast({
         title: "Error",
@@ -52,6 +52,12 @@ const VoiceUpload = () => {
       });
     } finally {
       setIsUploading(false);
+    }
+  };
+
+  const handlePreview = () => {
+    if (uploadedFile) {
+      navigate('/onboarding/voice/preview');
     }
   };
 
@@ -88,12 +94,41 @@ const VoiceUpload = () => {
           onChange={handleFileUpload}
           disabled={isUploading}
         />
-        <label htmlFor="voice-upload">
-          <Button variant="outline" className="gap-2" disabled={isUploading}>
-            <Upload className="h-5 w-5" />
-            {isUploading ? "Uploading..." : "Upload"}
-          </Button>
-        </label>
+        {!uploadedFile ? (
+          <label 
+            htmlFor="voice-upload" 
+            className="w-full max-w-md"
+          >
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-gray-400 transition-colors">
+              <Button 
+                variant="outline" 
+                className="mx-auto gap-2" 
+                disabled={isUploading}
+              >
+                <Upload className="h-5 w-5" />
+                {isUploading ? "Uploading..." : "Upload Voice Sample"}
+              </Button>
+              <p className="mt-2 text-sm text-gray-500">
+                Click to select an audio file
+              </p>
+            </div>
+          </label>
+        ) : (
+          <div className="w-full max-w-md">
+            <div className="flex items-center justify-between p-4 border rounded-lg">
+              <span className="text-sm truncate">
+                {uploadedFile.name}
+              </span>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handlePreview}
+              >
+                <Play className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
