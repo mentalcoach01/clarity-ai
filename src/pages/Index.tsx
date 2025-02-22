@@ -88,32 +88,32 @@ const Index = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="/" className="flex items-center space-x-2 text-gray-700 hover:text-purple-600">
-                    <Home className="h-5 w-5" />
+                  <Link to="/" className="flex items-center space-x-3 px-4 text-gray-700 hover:text-purple-600">
+                    <Home className="h-6 w-6" />
                     <span>Home</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="#voice" className="flex items-center space-x-2 text-gray-700 hover:text-purple-600">
-                    <Brain className="h-5 w-5" />
+                  <Link to="#voice" className="flex items-center space-x-3 px-4 text-gray-700 hover:text-purple-600">
+                    <Brain className="h-6 w-6" />
                     <span>Voice</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="#stress" className="flex items-center space-x-2 text-gray-700 hover:text-purple-600">
-                    <Activity className="h-5 w-5" />
+                  <Link to="#stress" className="flex items-center space-x-3 px-4 text-gray-700 hover:text-purple-600">
+                    <Activity className="h-6 w-6" />
                     <span>Stress</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link to="#calendar" className="flex items-center space-x-2 text-gray-700 hover:text-purple-600">
-                    <Calendar className="h-5 w-5" />
+                  <Link to="#calendar" className="flex items-center space-x-3 px-4 text-gray-700 hover:text-purple-600">
+                    <Calendar className="h-6 w-6" />
                     <span>Calendar</span>
                   </Link>
                 </SidebarMenuButton>
@@ -180,3 +180,4 @@ const Index = () => {
 };
 
 export default Index;
+
