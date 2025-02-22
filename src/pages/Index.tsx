@@ -1,11 +1,57 @@
 
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import VoiceCloning from "@/components/VoiceCloning";
 import Affirmations from "@/components/Affirmations";
 import StressMonitor from "@/components/StressMonitor";
 import CalendarIntegration from "@/components/CalendarIntegration";
-import { Home, Brain, Calendar, Activity } from "lucide-react";
+import { Home, Brain, Calendar, Activity, LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    checkAuth();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+      if (!session) {
+        navigate("/auth");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  const checkAuth = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    setIsAuthenticated(!!session);
+    if (!session) {
+      navigate("/auth");
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      navigate("/auth");
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  if (!isAuthenticated) return null;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white">
       {/* Navigation Bar */}
@@ -16,11 +62,21 @@ const Index = () => {
               <Brain className="h-8 w-8 text-purple-600" />
               <span className="ml-2 text-xl font-bold text-gray-900">AI Mental Coach</span>
             </div>
-            <div className="hidden sm:flex sm:space-x-8">
-              <NavLink icon={<Home className="h-5 w-5" />} label="Home" active />
-              <NavLink icon={<Brain className="h-5 w-5" />} label="Voice" />
-              <NavLink icon={<Activity className="h-5 w-5" />} label="Stress" />
-              <NavLink icon={<Calendar className="h-5 w-5" />} label="Calendar" />
+            <div className="flex items-center space-x-4">
+              <div className="hidden sm:flex sm:space-x-8">
+                <NavLink icon={<Home className="h-5 w-5" />} label="Home" active />
+                <NavLink icon={<Brain className="h-5 w-5" />} label="Voice" />
+                <NavLink icon={<Activity className="h-5 w-5" />} label="Stress" />
+                <NavLink icon={<Calendar className="h-5 w-5" />} label="Calendar" />
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleLogout}
+                className="text-gray-600 hover:text-purple-600"
+              >
+                <LogOut className="h-5 w-5" />
+              </Button>
             </div>
           </div>
         </div>
@@ -61,4 +117,3 @@ const NavLink = ({ icon, label, active = false }: { icon: React.ReactNode; label
 );
 
 export default Index;
-
