@@ -10,7 +10,6 @@ import MainContent from "@/components/home/MainContent";
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -28,37 +27,10 @@ const Index = () => {
   }, [navigate]);
 
   const checkAuth = async () => {
-    try {
-      setIsLoading(true);
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
-      
-      if (!session) {
-        navigate("/auth");
-        return;
-      }
-
-      // Check if user has completed onboarding
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('has_completed_onboarding')
-        .eq('id', session.user.id)
-        .single();
-
-      if (!profile?.has_completed_onboarding) {
-        navigate("/onboarding");
-        return;
-      }
-
-    } catch (error: any) {
-      console.error('Error checking auth:', error);
-      toast({
-        title: "Error",
-        description: "There was a problem checking your authentication status",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+    const { data: { session } } = await supabase.auth.getSession();
+    setIsAuthenticated(!!session);
+    if (!session) {
+      navigate("/auth");
     }
   };
 
@@ -76,7 +48,6 @@ const Index = () => {
     }
   };
 
-  if (isLoading) return null;
   if (!isAuthenticated) return null;
 
   return (
@@ -93,4 +64,3 @@ const Index = () => {
 };
 
 export default Index;
-

@@ -1,30 +1,29 @@
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Toaster } from "@/components/ui/sonner";
-import Index from "@/pages/Index";
-import Auth from "@/pages/Auth";
-import NotFound from "@/pages/NotFound";
-import { FocusSelection } from "@/components/onboarding/FocusSelection";
-import { VoiceUpload } from "@/components/onboarding/VoiceUpload";
-import { CalendarConnect } from "@/components/onboarding/CalendarConnect";
-import { WatchPair } from "@/components/onboarding/WatchPair";
-import { OnboardingLayout } from "@/components/onboarding/OnboardingLayout";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Index from "./pages/Index";
+import Auth from "./pages/Auth";
+import NotFound from "./pages/NotFound";
 
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/onboarding" element={<OnboardingLayout><FocusSelection /></OnboardingLayout>} />
-        <Route path="/onboarding/voice-upload" element={<OnboardingLayout><VoiceUpload /></OnboardingLayout>} />
-        <Route path="/onboarding/calendar" element={<OnboardingLayout><CalendarConnect /></OnboardingLayout>} />
-        <Route path="/onboarding/watch" element={<OnboardingLayout><WatchPair /></OnboardingLayout>} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
       <Toaster />
-    </Router>
-  );
-}
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
 export default App;

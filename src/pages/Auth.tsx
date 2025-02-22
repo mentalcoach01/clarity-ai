@@ -22,33 +22,12 @@ const Auth = () => {
 
     try {
       if (isLogin) {
-        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
-        if (authError) throw authError;
-
-        // Show welcome back toast
-        toast({
-          title: "Welcome back!",
-          description: "Successfully signed in to your account.",
-        });
-
-        // Check onboarding status
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('has_completed_onboarding')
-          .eq('id', authData.user.id)
-          .single();
-        
-        if (profileError) throw profileError;
-
-        // Redirect based on onboarding status
-        if (!profile?.has_completed_onboarding) {
-          navigate("/onboarding");
-        } else {
-          navigate("/");
-        }
+        if (error) throw error;
+        navigate("/");
       } else {
         const { error } = await supabase.auth.signUp({
           email,
@@ -56,9 +35,8 @@ const Auth = () => {
         });
         if (error) throw error;
         toast({
-          title: "Account created successfully!",
-          description: "Please check your email to confirm your registration.",
-          duration: 5000, // Show for 5 seconds
+          title: "Success",
+          description: "Check your email to confirm your registration",
         });
       }
     } catch (error: any) {
