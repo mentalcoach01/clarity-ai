@@ -60,15 +60,13 @@ export const FocusSelection = () => {
           ))}
         </div>
 
-        <div className="pt-8">
-          <Button
-            className="w-full bg-black text-white hover:bg-gray-800 h-9 px-3"
-            onClick={handleContinue}
-            disabled={!selectedFocus}
-          >
-            Continue
-          </Button>
-        </div>
+        <Button
+          className="w-full bg-black text-white hover:bg-gray-800"
+          onClick={handleContinue}
+          disabled={!selectedFocus}
+        >
+          Continue
+        </Button>
       </div>
     </div>
   );
