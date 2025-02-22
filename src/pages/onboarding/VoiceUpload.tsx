@@ -1,18 +1,15 @@
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Play, Pause, Upload } from "lucide-react";
+import { ArrowLeft, Upload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const VoiceUpload = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -38,11 +35,15 @@ const VoiceUpload = () => {
 
       if (uploadError) throw uploadError;
 
-      setUploadedFile(file);
+      localStorage.setItem('voiceFile', file.name);
+      localStorage.setItem('voiceFileUrl', URL.createObjectURL(file));
+      
       toast({
         title: "Success",
         description: "Voice sample uploaded successfully",
       });
+      
+      navigate('/onboarding/voice/preview');
     } catch (error: any) {
       toast({
         title: "Error",
@@ -52,17 +53,6 @@ const VoiceUpload = () => {
     } finally {
       setIsUploading(false);
     }
-  };
-
-  const togglePlayback = () => {
-    if (!audioRef.current) return;
-    
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
   };
 
   return (
@@ -89,49 +79,22 @@ const VoiceUpload = () => {
         Upload a sample of your voice
       </h1>
 
-      {!uploadedFile ? (
-        <div className="flex flex-col items-center justify-center gap-4">
-          <input
-            type="file"
-            accept="audio/*"
-            className="hidden"
-            id="voice-upload"
-            onChange={handleFileUpload}
-            disabled={isUploading}
-          />
-          <label htmlFor="voice-upload">
-            <Button variant="outline" className="gap-2" disabled={isUploading}>
-              <Upload className="h-5 w-5" />
-              {isUploading ? "Uploading..." : "Upload"}
-            </Button>
-          </label>
-        </div>
-      ) : (
-        <>
-          <div className="flex items-center justify-between p-4 border rounded-md mb-8">
-            <span className="text-sm">{uploadedFile.name}</span>
-            <Button variant="ghost" size="icon" onClick={togglePlayback}>
-              {isPlaying ? (
-                <Pause className="h-5 w-5" />
-              ) : (
-                <Play className="h-5 w-5" />
-              )}
-            </Button>
-          </div>
-          <audio
-            ref={audioRef}
-            src={URL.createObjectURL(uploadedFile)}
-            onEnded={() => setIsPlaying(false)}
-            className="hidden"
-          />
-          <Button
-            className="w-full"
-            onClick={() => navigate('/onboarding/calendar')}
-          >
-            Continue
+      <div className="flex flex-col items-center justify-center gap-4">
+        <input
+          type="file"
+          accept="audio/*"
+          className="hidden"
+          id="voice-upload"
+          onChange={handleFileUpload}
+          disabled={isUploading}
+        />
+        <label htmlFor="voice-upload">
+          <Button variant="outline" className="gap-2" disabled={isUploading}>
+            <Upload className="h-5 w-5" />
+            {isUploading ? "Uploading..." : "Upload"}
           </Button>
-        </>
-      )}
+        </label>
+      </div>
     </div>
   );
 };

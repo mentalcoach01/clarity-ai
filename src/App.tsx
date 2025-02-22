@@ -10,6 +10,7 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import FocusSelection from "./pages/onboarding/FocusSelection";
 import VoiceUpload from "./pages/onboarding/VoiceUpload";
+import VoicePreview from "./pages/onboarding/VoicePreview";
 import CalendarConnect from "./pages/onboarding/CalendarConnect";
 import WatchPairing from "./pages/onboarding/WatchPairing";
 
@@ -39,6 +40,7 @@ const App = () => {
               <Route path="/auth" element={<Navigate to="/" replace />} />
               <Route path="/onboarding/focus" element={<FocusSelection />} />
               <Route path="/onboarding/voice" element={<VoiceUpload />} />
+              <Route path="/onboarding/voice/preview" element={<VoicePreview />} />
               <Route path="/onboarding/calendar" element={<CalendarConnect />} />
               <Route path="/onboarding/watch" element={<WatchPairing />} />
               <Route path="*" element={<NotFound />} />
@@ -51,4 +53,3 @@ const App = () => {
 };
 
 export default App;
-
