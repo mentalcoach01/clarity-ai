@@ -28,6 +28,12 @@ const Auth = () => {
         });
         if (authError) throw authError;
 
+        // Show welcome back toast
+        toast({
+          title: "Welcome back!",
+          description: "Successfully signed in to your account.",
+        });
+
         // Check onboarding status
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
@@ -50,8 +56,9 @@ const Auth = () => {
         });
         if (error) throw error;
         toast({
-          title: "Success",
-          description: "Check your email to confirm your registration",
+          title: "Account created successfully!",
+          description: "Please check your email to confirm your registration.",
+          duration: 5000, // Show for 5 seconds
         });
       }
     } catch (error: any) {
