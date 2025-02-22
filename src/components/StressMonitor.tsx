@@ -47,11 +47,7 @@ const StressMonitor = () => {
         <div className="space-y-4">
           <Progress 
             value={latestStressLevel * 10} 
-            className="w-full h-4 bg-purple-100"
-            style={{
-              '--tw-bg-opacity': '0.8',
-              backgroundColor: 'rgb(243 232 255 / var(--tw-bg-opacity))'
-            }}
+            className="w-full h-4 bg-purple-100/80"
           />
           <p className="text-center text-lg text-gray-700">
             Level: {latestStressLevel} / 10
