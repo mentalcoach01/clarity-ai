@@ -39,14 +39,21 @@ const StressMonitor = () => {
   const latestStressLevel = stressLevels[0]?.level || 0;
 
   return (
-    <Card>
+    <Card className="bg-white/80 backdrop-blur-sm border border-purple-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
       <CardHeader>
-        <CardTitle>Current Stress Level</CardTitle>
+        <CardTitle className="text-gray-900">Current Stress Level</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          <Progress value={latestStressLevel * 10} className="w-full" />
-          <p className="text-center text-lg">
+          <Progress 
+            value={latestStressLevel * 10} 
+            className="w-full h-4 bg-purple-100"
+            style={{
+              '--tw-bg-opacity': '0.8',
+              backgroundColor: 'rgb(243 232 255 / var(--tw-bg-opacity))'
+            }}
+          />
+          <p className="text-center text-lg text-gray-700">
             Level: {latestStressLevel} / 10
           </p>
         </div>
