@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import VoiceCloning from "@/components/VoiceCloning";
@@ -181,9 +180,9 @@ const Index = () => {
                 </div>
               </div>
 
-              <h1 className="text-4xl font-bold text-center mb-8 text-gray-900">
-                Welcome to Your AI Mental Coach
-              </h1>
+              <h2 className="text-2xl font-bold text-gray-900">
+                Explore
+              </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <VoiceCloning />
@@ -200,4 +199,3 @@ const Index = () => {
 };
 
 export default Index;
-
