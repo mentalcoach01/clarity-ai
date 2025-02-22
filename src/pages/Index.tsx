@@ -14,7 +14,8 @@ import {
   Search,
   Bell,
   UserCircle,
-  Menu
+  Menu,
+  ArrowRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -32,7 +33,6 @@ import {
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -161,6 +161,26 @@ const Index = () => {
           {/* Main Content */}
           <div className="p-8">
             <div className="max-w-7xl mx-auto space-y-8">
+              {/* New Half Banner */}
+              <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div className="flex items-center">
+                  <div className="w-1/3">
+                    <img 
+                      src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+                      alt="Woman working on laptop"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <div className="w-2/3 p-8 space-y-4">
+                    <h2 className="text-2xl font-bold text-gray-900">Start Your Mental Wellness Journey Today</h2>
+                    <p className="text-gray-600">Experience personalized mental coaching with AI-powered insights and support. Let's work together to achieve your mental wellness goals.</p>
+                    <Button className="bg-purple-600 hover:bg-purple-700 text-white flex items-center gap-2">
+                      Get Started <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
               <h1 className="text-4xl font-bold text-center mb-8 text-gray-900">
                 Welcome to Your AI Mental Coach
               </h1>
