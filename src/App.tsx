@@ -3,7 +3,6 @@ import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
@@ -21,36 +20,35 @@ const App = () => {
 
   return (
     <React.StrictMode>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route 
-                  path="/" 
-                  element={
-                    hasCompletedOnboarding ? (
-                      <Index />
-                    ) : (
-                      <Navigate to="/onboarding/focus" replace />
-                    )
-                  } 
-                />
-                <Route path="/auth" element={<Navigate to="/" replace />} />
-                <Route path="/onboarding/focus" element={<FocusSelection />} />
-                <Route path="/onboarding/voice" element={<VoiceUpload />} />
-                <Route path="/onboarding/calendar" element={<CalendarConnect />} />
-                <Route path="/onboarding/watch" element={<WatchPairing />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </QueryClientProvider>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route 
+                path="/" 
+                element={
+                  hasCompletedOnboarding ? (
+                    <Index />
+                  ) : (
+                    <Navigate to="/onboarding/focus" replace />
+                  )
+                } 
+              />
+              <Route path="/auth" element={<Navigate to="/" replace />} />
+              <Route path="/onboarding/focus" element={<FocusSelection />} />
+              <Route path="/onboarding/voice" element={<VoiceUpload />} />
+              <Route path="/onboarding/calendar" element={<CalendarConnect />} />
+              <Route path="/onboarding/watch" element={<WatchPairing />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
     </React.StrictMode>
   );
 };
 
 export default App;
+
