@@ -99,7 +99,10 @@ This isn’t just a "mental health issue"—it’s a **societal emergency**. Wit
 1. **Calendar Integration**: Struggled with Google Calendar API (resorted to a custom calendar).  
 2. **Voice Cloning**: Dynamic user voice integration into Lovable failed (used pre-generated audio).  
 3. **Mobile Audio Upload**: iOS compatibility issues.  
-4. **Real-Time Workflows**: Time zone differences (team members in India, France, Canada) delayed testing.  
+4. **Real-Time Workflows**: Time zone differences (team members in India, France, Canada) delayed testing.
+5. **Cat invasions**: Can't chase him out of the room, always comes back to help with designs.
+   ![IMG20250223160711](https://github.com/user-attachments/assets/fd8581d3-e9fb-456c-a62a-2983b2d22f75)
+
 
 **Accomplishments**:  
 - Delivered a functional MVP with voice interaction and event tracking.  
